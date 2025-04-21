@@ -1,1 +1,5 @@
-spring.application.name=chat-app
+spring:
+  application:
+    name: chat-app
+server:
+  port: 8088
