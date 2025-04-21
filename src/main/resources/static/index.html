@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Spring Boot Web Socket Chat Application</title>
+  <link href="/css/main.css" rel="stylesheet">
+</head>
+<body>
+<div id="username-page">
+  <div class="username-page-container container col-sm-12">
+    <h1>Type your username to enter the Chatroom</h1>
+    <form id="usernameForm" name="usernameForm">
+      <div class="form-group">
+        <input autocomplete="off" class="form-control" name="name" placeholder="Username" type="text">
+      </div>
+      <div class="form-group">
+        <button class="accent username-submit" type="submit">Chat Starting</button>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="hidden" id="chat-page">
+  <div class="chat-page-container container">
+    <div class="chat-header"><h1>Spring Websocket Chat Demo</h1></div>
+    <div class="connecting">Connecting...</div>
+    <ul id="messages"></ul>
+    <form id="messageForm" name="messageForm">
+      <div class="input-group clearfix">
+        <input
+          autocomplete="off" class="form-control" id="message" name="message" placeholder="Type a message..."
+          type="text"
+        >
+        <button class="primary" type="submit">Send</button>
+      </div>
+    </form>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@5.0.0/bundles/stomp.umd.min.js"></script>
+<script src="/js/main.js"></script>
+</body>
+</html>
