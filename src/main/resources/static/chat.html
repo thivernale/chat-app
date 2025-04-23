@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat Application</title>
+  <link href="/css/main.css" rel="stylesheet">
+</head>
+<body>
+
+<h2>One-on-one Chat</h2>
+
+<div class="user-form" id="username-page">
+  <div class="/*username-page-container*/ container col-sm-12">
+    <h1>Enter Chatroom</h1>
+    <form id="usernameForm" name="usernameForm">
+      <div class="form-group">
+        <label> Username:
+          <input autocomplete="off" class="form-control" name="username" placeholder="Username" type="text">
+        </label>
+      </div>
+      <div class="form-group">
+        <label> Real name:
+          <input autocomplete="off" class="form-control" name="name" placeholder="Real name" type="text">
+        </label>
+      </div>
+      <div class="form-group">
+        <button class="accent username-submit" type="submit">Enter Chatroom</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="chat-container hidden" id="chat-page">
+  <div class="connecting">Connecting...</div>
+  <div class="users-list">
+    <div class="users-list-container">
+      <h2>Online Users</h2>
+      <ul id="connectedUsers"></ul>
+    </div>
+    <div>
+      <p id="connected-user-name">Connected user</p>
+      <a class="logout" href="javascript:void(0)" id="logout">Logout</a>
+    </div>
+  </div>
+  <div class="chat-area">
+    <div id="chat-messages"></div>
+    <form class="hidden" id="messageForm" name="messageForm">
+      <div class="message-input">
+        <input
+          autocomplete="off" class="form-control" id="message" name="message" placeholder="Type your message..."
+          type="text"
+        >
+        <button class="primary" type="submit">Send</button>
+      </div>
+    </form>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@5.0.0/bundles/stomp.umd.min.js"></script>
+<script src="/js/chat.js"></script>
+</body>
+</html>
