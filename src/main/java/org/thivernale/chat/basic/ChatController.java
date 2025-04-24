@@ -1,4 +1,4 @@
-package org.thivernale.chat;
+package org.thivernale.chat.basic;
 
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;

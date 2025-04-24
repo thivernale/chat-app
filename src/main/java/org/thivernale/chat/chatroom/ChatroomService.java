@@ -19,8 +19,7 @@ public class ChatroomService {
     }
 
     private String createChatId(String senderId, String recipientId) {
-
-        String chatId = String.format("%s_%s", senderId, recipientId);
+        final String chatId = String.format("%s_%s", senderId, recipientId);
         chatroomRepository.save(new Chatroom(null, chatId, senderId, recipientId));
         chatroomRepository.save(
             new Chatroom(null, String.format("%s_%s", recipientId, senderId), recipientId, senderId));
