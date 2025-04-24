@@ -255,6 +255,12 @@ button.accent {
   width: 100%;
 }
 
+.connecting.error {
+  background-color: inherit;
+  height: 100%;
+  z-index: 1;
+  top: 0;
+}
 
 @media screen and (max-width: 730px) {
 

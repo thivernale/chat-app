@@ -5,7 +5,6 @@ const chatPage = document.querySelector('#chat-page');
 const usernameForm = document.querySelector('#usernameForm');
 const messageForm = document.querySelector('#messageForm');
 const messageInput = document.querySelector('#message');
-const messageArea = document.querySelector('#messages');
 const chatArea = document.querySelector('#chat-messages');
 const logout = document.querySelector('#logout');
 const connectingElement = document.querySelector('.connecting');
@@ -18,6 +17,7 @@ const colors = [
   '#2196f3', '#32c787', '#00bc94', '#ff5652',
   '#ffc107', '#ff85af', '#ff9800', '#39bbb0',
 ];
+let reconnectTimeout;
 
 usernameForm.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -28,9 +28,10 @@ usernameForm.addEventListener('submit', (e) => {
     usernamePage.classList.add('hidden');
     chatPage.classList.remove('hidden');
 
-    const socket = new SockJS('/ws');
+    const socket = () => new SockJS('/ws');
     stompClient = StompJs.Stomp.over(socket);
-    stompClient.connect({}, onConnected, onError);
+    stompClient.reconnectDelay = 5000;
+    stompClient.connect({}, onConnected, onError, onWebSocketClose);
   }
 }, true);
 
@@ -61,6 +62,9 @@ function onLogout() {
 }
 
 function onConnected() {
+  if (reconnectTimeout) {
+    clearTimeout(reconnectTimeout);
+  }
   // subscribe to own queue
   stompClient.subscribe(`/user/${username}/queue/messages`, onMessageReceived);
   // subscribe to common topic
@@ -151,6 +155,19 @@ function createMessageItemElement(senderId, content) {
 function onError() {
   connectingElement.textContent = 'Could not connect to the Web Socket server. Please refresh the page and try again.';
   connectingElement.classList.add('error');
+  connectingElement.classList.remove('hidden');
+}
+
+function onWebSocketClose() {
+  connectingElement.textContent = 'Web Socket connection closed. Attempting to reconnect...';
+  connectingElement.classList.add('error');
+  connectingElement.classList.remove('hidden');
+  reconnectTimeout = setTimeout(() => {
+    if (!stompClient.connected) {
+      stompClient.deactivate();
+      connectingElement.textContent = 'Cannot connect to the Web Socket server. Please refresh the page and try again.';
+    }
+  }, stompClient.reconnectDelay * 5);
 }
 
 function getAvatarColor(sender) {
@@ -186,7 +203,9 @@ async function onMessageReceived(payload) {
 
   const userItemElement = document.querySelector(`#${message.senderId}`);
   if (selectedUserId) {
-    userItemElement.classList.add('active');
+    if (userItemElement) {
+      userItemElement.classList.add('active');
+    }
   } else {
     messageForm.classList.add('hidden');
   }
